@@ -1,0 +1,7 @@
+*.pyc
+*~
+build
+dist
+graphit.egg-info
+distribute-*.tar.gz
+*.egg

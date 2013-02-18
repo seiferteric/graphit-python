@@ -33,13 +33,13 @@ def main():
   new_point.add_argument('-g', '--graphid', required=False, help='ID of Graph')
   new_point.add_argument('-x', '--x_value', required=True, help='Value of X')
   new_point.add_argument('-y', '--y_value', required=True, help='Value of Y')
-  new_point.add_argument('-u', '--update', action='store_true', required=False, help='Update graph after insert')
+  new_point.add_argument('-n', '--no_update', action='store_false', required=False, help='Do not update graph after insert')
 
   remove = subparsers.add_parser('remove', help='Remove data from graph')
   remove.add_argument('-g', '--graphid', required=False, help='ID of Graph')
   remove.add_argument('-l', '--lessthan', required=False, help='Select Data Less than this')
   remove.add_argument('-m', '--morethan', required=False, help='Select Data Greater than this')
-  remove.add_argument('-u', '--update', action='store_true', required=False, help='Update graph after remove')
+  remove.add_argument('-n', '--no_update', action='store_false', required=False, help='Update graph after remove')
 
   update = subparsers.add_parser('update', help='Update Graph')
   update.add_argument('-g', '--graphid', required=False, help='ID of Graph')
@@ -85,7 +85,7 @@ def main():
       print "No graph specified"
       return
     g = graphit.Graph(g_id)
-    g.add_datum(args.x_value, args.y_value,update=args.update)
+    g.add_datum(args.x_value, args.y_value,update=args.no_update)
     graphit.config.last_graph = g._id
     graphit.config.save()
   elif args.command == "list":
@@ -109,7 +109,7 @@ def main():
       print "No graph specified"
       return
     g = graphit.Graph(g_id)
-    g.delete_data(less_than=args.lessthan, greater_than=args.morethan, update=args.update)
+    g.delete_data(less_than=args.lessthan, greater_than=args.morethan, update=args.no_update)
     graphit.config.last_graph = g._id
     graphit.config.save()
   elif args.command == "info":

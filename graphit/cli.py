@@ -3,6 +3,7 @@
 import sys
 import graphit
 import argparse
+import webbrowser
 
 def test_config():
   if not graphit.config.test_config():
@@ -55,6 +56,9 @@ def main():
   
   info = subparsers.add_parser('info', help='Display graph info')
   info.add_argument('-g', '--graphid', required=False, help='ID of Graph')
+
+  open_graph = subparsers.add_parser('open', help='Open graph in default browser')
+  open_graph.add_argument('-g', '--graphid', required=False, help='ID of Graph')
 
   list_graphs = subparsers.add_parser('list', help='List all Graphs')
   
@@ -149,6 +153,13 @@ def main():
       print "From Start: %f"%g.from_start
     if g.samples != None:
       print "Samples: %d"%g.samples
+  elif args.command == "open":
+    g_id = graphit.util.working_graph(args)
+    if not g_id:
+      print "No graph specified"
+      return
+    g = graphit.Graph(g_id)
+    webbrowser.open(g.url())
 
 
       

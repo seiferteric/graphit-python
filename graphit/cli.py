@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 
-import sys
+import sys, os
 import graphit
 import argparse
 import webbrowser
+import yaml
 
 def test_config():
   if not graphit.config.test_config():
@@ -62,6 +63,18 @@ def main():
   open_graph.add_argument('-g', '--graphid', required=False, help='ID of Graph')
 
   list_graphs = subparsers.add_parser('list', help='List all Graphs')
+    
+  build = subparsers.add_parser('build', help='Build Data Set by adding data')
+  build.add_argument('-g', '--graphid', required=False, help='ID of Graph')
+  build.add_argument('-x', '--x_value', required=True, help='Value of X')
+  build.add_argument('-y', '--y_value', required=True, help='Value of Y')
+  build.add_argument('-s', '--series', required=False, help='Graph Series Name')
+
+  send = subparsers.add_parser('send', help='Send Data Set')
+  send.add_argument('-g', '--graphid', required=False, help='ID of Graph')
+  send.add_argument('-n', '--no_update', action='store_false', required=False, help='Do not update graph after sending')
+  
+
   
   args = parser.parse_args()
     
@@ -91,7 +104,7 @@ def main():
       return
     g = graphit.Graph(g_id)
     g.add_datum(args.x_value, args.y_value,args.series,update=args.no_update)
-    graphit.config.last_graph = g._id
+    graphit.config.last_graph = g_id
     graphit.config.save()
   elif args.command == "list":
     for graph in graphit.list_graphs():
@@ -103,7 +116,7 @@ def main():
       return
     g = graphit.Graph(g_id)
     g.update({"x_label": args.x_label, "y_label": args.y_label})
-    graphit.config.last_graph = g._id
+    graphit.config.last_graph = g_id
     graphit.config.save()
   elif args.command == "use":
     graphit.config.last_graph = args.graphid
@@ -115,7 +128,7 @@ def main():
       return
     g = graphit.Graph(g_id)
     g.delete_data(less_than=args.lessthan, greater_than=args.morethan, update=args.no_update)
-    graphit.config.last_graph = g._id
+    graphit.config.last_graph = g_id
     graphit.config.save()
   elif args.command == "info":
     g_id = graphit.util.working_graph(args)
@@ -161,6 +174,38 @@ def main():
       return
     g = graphit.Graph(g_id)
     webbrowser.open(g.url())
+  elif args.command == "build":
+    g_id = graphit.util.working_graph(args)
+    if not g_id:
+      print "No graph specified"
+      return
+    ds_file = open(os.path.expanduser("~/.graphit_data_%s"%g_id), "a+")
+    ds_file.write(yaml.dump(graphit.data.Datum(args.x_value, args.y_value, args.series)))
+    ds_file.close()
+    graphit.config.last_graph = g_id
+    graphit.config.save()
+
+  elif args.command == "send":
+    g_id = graphit.util.working_graph(args)
+    if not g_id:
+      print "No graph specified"
+      return
+    ds_file = open(os.path.expanduser("~/.graphit_data_%s"%g_id))
+    ds = graphit.data.DataSet()
+    for datum in ds_file:
+        datum = yaml.load(datum)
+        ds.add_datum(datum)
+    ds_file.close()
+    g = graphit.Graph(g_id)
+    g.add_data_set(ds, update=args.no_update)      
+    os.unlink(os.path.expanduser("~/.graphit_data_%s"%g_id))
+    graphit.config.last_graph = g_id
+    graphit.config.save()
+
+        
+
+    
+          
 
 
       

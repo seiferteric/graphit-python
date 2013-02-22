@@ -43,7 +43,7 @@ class Graph(object):
   def add_data_set(self, data_set,update=False):
     res = requests.post(  
             util.user_graph_data_path(config.user_id, self._id,update),
-            data = json.dumps(data_set.data),
+            data = json.dumps(data_set.to_hash()),
             headers = util._build_headers(auth=True, content=True))
     res.raise_for_status()
 

@@ -8,7 +8,7 @@ setup(
       name = "graphit",
       version = "0.0.1",
       packages = find_packages(),
-      install_requires=['distribute', 'requests>=1.1.0', 'yaml'],
+      install_requires=['distribute', 'requests>=1.1.0', 'pyyaml'],
       author = "Eric Seifert",
       author_email = "seiferteric@gmail.com",
       description = "Graphit.io Graphing API library",

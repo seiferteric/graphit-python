@@ -1,7 +1,7 @@
 
 from config import config
 
-BASE_URL = 'http://graphit.io'
+BASE_URL = 'https://graphit.io'
 API_URL = BASE_URL + "/api"
 
 

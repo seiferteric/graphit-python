@@ -13,7 +13,7 @@ setup(
       author_email = "seiferteric@gmail.com",
       description = "Graphit.io Graphing API library",
       keywords = "graphit graph Graphit.io", 
-      url = "http://www.graphit.io/",
+      url = "https://graphit.io/",
       zip_safe = True,
       entry_points = {
         'console_scripts': [

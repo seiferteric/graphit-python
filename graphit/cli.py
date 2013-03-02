@@ -36,6 +36,8 @@ def main():
   new_point.add_argument('-x', '--x_value', required=True, help='Value of X')
   new_point.add_argument('-y', '--y_value', required=True, help='Value of Y')
   new_point.add_argument('-s', '--series', required=False, help='Graph Series Name')
+  new_point.add_argument('-xl', '--x_label', required=False, help='Manually Set X label for point')
+  new_point.add_argument('-yl', '--y_label', required=False, help='Manually Set Y label for point')
   new_point.add_argument('-n', '--no_update', action='store_false', required=False, help='Do not update graph after insert')
 
   remove = subparsers.add_parser('remove', help='Remove data from graph')
@@ -103,7 +105,7 @@ def main():
       print "No graph specified"
       return
     g = graphit.Graph(g_id)
-    g.add_datum(args.x_value, args.y_value,args.series,update=args.no_update)
+    g.add_datum(args.x_value, args.y_value,args.series,args.x_label,args.y_label,update=args.no_update)
     graphit.config.last_graph = g_id
     graphit.config.save()
   elif args.command == "list":

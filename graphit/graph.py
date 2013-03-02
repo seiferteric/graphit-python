@@ -23,8 +23,8 @@ class Graph(object):
     res = requests.delete(util.user_graph_path(config.user_id, self._id), headers=util._build_headers(auth=True))
     res.raise_for_status()
 
-  def add_datum(self,x_value, y_value,series=None,update=False):
-    graph_data = [{'series': series, 'x': {'value':x_value}, 'y': {'value':y_value}}]
+  def add_datum(self,x_value, y_value, series=None, xlabel=None, ylabel=None, update=False):
+    graph_data = [{'series': series, 'x': {'value':x_value, 'label': xlabel}, 'y': {'value':y_value, 'label': ylabel}}]
     res = requests.post(
             util.user_graph_data_path(config.user_id, self._id,update),
             data = json.dumps(graph_data),

@@ -9,6 +9,7 @@ class Config(object):
     self.user_id = None
     self.api_key = None
     self.last_graph = None
+    self.base_url = None
     if not user_id or not api_key:
       try:
         self.read_config()
@@ -28,9 +29,12 @@ class Config(object):
     self.user_id = None
     self.api_key = None
     self.last_graph = None
+    self.base_url = None
     self.user_id = config.get('config', 'user_id')
     self.api_key = config.get('config', 'api_key')
     self.last_graph = config.get('config', 'last_graph')
+    if config.has_option('config', 'base_url'):
+      self.base_url = config.get('config', 'base_url')
 
   def save(self):
     if not self.user_id or not self.api_key:

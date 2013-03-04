@@ -32,7 +32,7 @@ def _build_headers(content=False,auth=False,version=1):
   if auth:
     headers['Authorization'] = 'Token token="%s"'%config.api_key
   if version:
-    headers['Accept'] = 'application/www.graphit.io; version=%d'%version
+    headers['Accept'] = 'application/graphit.io; version=%d'%version
   return headers
 
 def working_graph(args):

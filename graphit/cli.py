@@ -183,8 +183,22 @@ def main():
     if not g_id:
       print "No graph specified"
       return
-    ds_file = open(os.path.expanduser("~/.graphit_data_%s"%g_id), "a+")
-    ds_file.write(yaml.dump(graphit.data.Datum(args.x_value, args.y_value, args.series)))
+    try:
+      ds_file = open(os.path.expanduser("~/.graphit_data_%s"%g_id))
+    except:
+      ds_file = open(os.path.expanduser("~/.graphit_data_%s"%g_id), "w+")
+
+      
+    cdata = yaml.load(ds_file)
+    ds_file.close()
+    ds_file = open(os.path.expanduser("~/.graphit_data_%s"%g_id), "w")
+    
+    if cdata == None:
+      cdata = []
+    
+    cdata.append(graphit.data.Datum(args.x_value, args.y_value, args.series))
+    
+    ds_file.write(yaml.dump(cdata))
     ds_file.close()
     graphit.config.last_graph = g_id
     graphit.config.save()
@@ -194,12 +208,16 @@ def main():
     if not g_id:
       print "No graph specified"
       return
-    ds_file = open(os.path.expanduser("~/.graphit_data_%s"%g_id))
+    # ds_file = open(os.path.expanduser("~/.graphit_data_%s"%g_id))
     ds = graphit.data.DataSet()
-    for datum in ds_file:
-        datum = yaml.load(datum)
-        ds.add_datum(datum)
-    ds_file.close()
+    # for datum in ds_file:
+    #     print datum
+    #     datum = yaml.load(datum)
+    #     ds.add_datum(datum)
+    data = yaml.load(open(os.path.expanduser("~/.graphit_data_%s"%g_id)))
+    for d in data:
+      ds.add_datum(d)
+    # ds_file.close()
     g = graphit.Graph(g_id)
     g.add_data_set(ds, update=args.no_update)      
     os.unlink(os.path.expanduser("~/.graphit_data_%s"%g_id))

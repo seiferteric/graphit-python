@@ -169,6 +169,8 @@ def main():
       print "From Start: %f"%g.from_start
     if g.samples != None:
       print "Samples: %d"%g.samples
+    if g.data_count != None:
+      print "Total Data Points: %d"%g.data_count
   elif args.command == "open":
     g_id = graphit.util.working_graph(args)
     if not g_id:

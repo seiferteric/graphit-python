@@ -18,7 +18,9 @@ def test_config():
     
 def main():
   parser = argparse.ArgumentParser(description='Graphit.io Shell Utility')
+  parser.add_argument('--version', action='version', version='%(prog)s 0.0.4')
   subparsers = parser.add_subparsers(help='sub-command help', dest="command")
+  
 
   #Config Parser for settings
   config = subparsers.add_parser('config', help='Config Global Settings')

@@ -20,7 +20,8 @@ def main():
   parser = argparse.ArgumentParser(description='Graphit.io Shell Utility')
   parser.add_argument('--version', action='version', version='%(prog)s 0.0.4')
   subparsers = parser.add_subparsers(help='sub-command help', dest="command")
-  
+ 
+  subparsers.add_parser('signup', help='Opens the graphit.io signup page.') 
 
   #Config Parser for settings
   config = subparsers.add_parser('config', help='Config Global Settings')
@@ -225,15 +226,8 @@ def main():
     os.unlink(os.path.expanduser("~/.graphit_data_%s"%g_id))
     graphit.config.last_graph = g_id
     graphit.config.save()
-
-        
-
-    
-          
-
-
-      
-
+  elif args.command == "signup":
+    webbrowser.open('https://graphit.io/auth/google') 
 
 if __name__ == "__main__":
   main()

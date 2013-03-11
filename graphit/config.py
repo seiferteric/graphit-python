@@ -1,5 +1,8 @@
 import os
-import ConfigParser
+try:
+  import configparser
+except ImportError:
+  import ConfigParser as configparser
 
 CONFIG_FILE = os.path.expanduser('~/.graphitconfig')
 
@@ -20,7 +23,7 @@ class Config(object):
       self.api_key = api_key
 
   def read_config(self):
-    config = ConfigParser.ConfigParser()
+    config = configparser.ConfigParser()
     config.read(CONFIG_FILE)
     if not config.has_section('config') or not config.has_option('config', 'user_id') or not config.has_option('config', 'api_key')\
       or config.get('config', 'user_id') == "None" or config.get('config', 'api_key') == "None":
@@ -39,7 +42,7 @@ class Config(object):
   def save(self):
     if not self.user_id or not self.api_key:
       raise Exception("Can't save empty config")
-    config = ConfigParser.ConfigParser()
+    config = configparser.ConfigParser()
     config.read(CONFIG_FILE)
     if not config.has_section('config'):
         config.add_section('config')
@@ -53,7 +56,7 @@ class Config(object):
     configfile = open(CONFIG_FILE, 'wb')
     config.write(configfile)
   def test_config(self):
-    config = ConfigParser.ConfigParser()
+    config = configparser.ConfigParser()
     config.read(CONFIG_FILE)
     if not config.has_section('config') or not config.has_option('config', 'user_id') or not config.has_option('config', 'api_key')\
       or config.get('config', 'user_id') == "None" or config.get('config', 'api_key') == "None":

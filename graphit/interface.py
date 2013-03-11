@@ -1,9 +1,9 @@
 
 import json
 import requests
-from config import config
-from graph import Graph
-import util
+from .config import config
+from .graph import Graph
+from . import util
 
 def new_graph(ops={}):
 

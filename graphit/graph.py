@@ -1,5 +1,5 @@
-from config import config
-import util
+from .config import config
+from . import util
 import requests
 import json
 

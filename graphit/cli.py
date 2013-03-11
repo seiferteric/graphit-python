@@ -8,7 +8,7 @@ import yaml
 
 def test_config():
   if not graphit.config.test_config():
-    print "Config does not exist, please enter your information"
+    print("Config does not exist, please enter your information")
     sys.stdout.write("User ID: ")
     graphit.config.user_id = sys.stdin.readline().rstrip()
     sys.stdout.write("API Key: ")
@@ -90,14 +90,14 @@ def main():
         graphit.config.api_key = args.api_key
     if args.user_id or args.api_key:
         graphit.config.save()
-    print "User ID: %s"%graphit.config.user_id
-    print "API Key: %s"%graphit.config.api_key
+    print("User ID: %s"%graphit.config.user_id)
+    print("API Key: %s"%graphit.config.api_key)
   else:
     test_config()
   if args.command == "new":
     g = graphit.new_graph({"name":args.name, "x_label": args.x_label, "y_label": args.y_label})
     g.read()
-    print "%s : %s"%(g._id, g.name)
+    print("%s : %s"%(g._id, g.name))
     graphit.config.last_graph = g._id
     graphit.config.save()
   elif args.command == "delete":
@@ -105,7 +105,7 @@ def main():
   elif args.command == "add":
     g_id = graphit.util.working_graph(args)
     if not g_id:
-      print "No graph specified"
+      print("No graph specified")
       return
     g = graphit.Graph(g_id)
     g.add_datum(args.x_value, args.y_value,args.series,args.x_label,args.y_label,update=args.no_update)
@@ -113,11 +113,11 @@ def main():
     graphit.config.save()
   elif args.command == "list":
     for graph in graphit.list_graphs():
-      print "%s : %s"%(graph['_id'], graph['name'])
+      print("%s : %s"%(graph['_id'], graph['name']))
   elif args.command == "update":
     g_id = graphit.util.working_graph(args)
     if not g_id:
-      print "No graph specified"
+      print("No graph specified")
       return
     g = graphit.Graph(g_id)
     g.update({"x_label": args.x_label, "y_label": args.y_label})
@@ -129,7 +129,7 @@ def main():
   elif args.command == "remove":
     g_id = graphit.util.working_graph(args)
     if not g_id:
-      print "No graph specified"
+      print("No graph specified")
       return
     g = graphit.Graph(g_id)
     g.delete_data(less_than=args.lessthan, greater_than=args.morethan, update=args.no_update)
@@ -138,53 +138,53 @@ def main():
   elif args.command == "info":
     g_id = graphit.util.working_graph(args)
     if not g_id:
-      print "No graph specified"
+      print("No graph specified")
       return
     g = graphit.Graph(g_id)
     g.read()
     if g.name:
-      print "Name: %s" % g.name
-    print "ID: %s"%g._id
-    print "URL: %s"%g.url()
+      print("Name: %s" % g.name)
+    print("ID: %s"%g._id)
+    print("URL: %s"%g.url())
     if g.x_label:
-      print "X Label: %s"%g.x_label
+      print("X Label: %s"%g.x_label)
     if g.y_label:
-      print "Y Label: %s"%g.y_label
+      print("Y Label: %s"%g.y_label)
     if g.x_min != None:
-      print "X Min: %f"%g.x_min
+      print("X Min: %f"%g.x_min)
     if g.x_max != None:
-      print "X Max: %f"%g.x_max
+      print("X Max: %f"%g.x_max)
     if g.y_min != None:
-      print "Y Min: %f"%g.y_min
+      print("Y Min: %f"%g.y_min)
     if g.y_max != None:
-      print "Y Max: %f"%g.y_max
+      print("Y Max: %f"%g.y_max)
     if g.x_window_min != None:
-      print "X Window Min: %f"%g.x_window_min
+      print("X Window Min: %f"%g.x_window_min)
     if g.x_window_max != None:
-      print "X Window Max: %f"%g.x_window_max
+      print("X Window Max: %f"%g.x_window_max)
     if g.y_window_min != None:
-      print "Y Window Min: %f"%g.y_window_min
+      print("Y Window Min: %f"%g.y_window_min)
     if g.y_window_max != None:
-      print "Y Window Max: %f"%g.y_window_max
+      print("Y Window Max: %f"%g.y_window_max)
     if g.from_end != None:
-      print "From end: %f"%g.from_end
+      print("From end: %f"%g.from_end)
     if g.from_start != None:
-      print "From Start: %f"%g.from_start
+      print("From Start: %f"%g.from_start)
     if g.samples != None:
-      print "Samples: %d"%g.samples
+      print("Samples: %d"%g.samples)
     if g.data_count != None:
-      print "Total Data Points: %d"%g.data_count
+      print("Total Data Points: %d"%g.data_count)
   elif args.command == "open":
     g_id = graphit.util.working_graph(args)
     if not g_id:
-      print "No graph specified"
+      print("No graph specified")
       return
     g = graphit.Graph(g_id)
     webbrowser.open(g.url())
   elif args.command == "build":
     g_id = graphit.util.working_graph(args)
     if not g_id:
-      print "No graph specified"
+      print("No graph specified")
       return
     try:
       ds_file = open(os.path.expanduser("~/.graphit_data_%s"%g_id))
@@ -209,7 +209,7 @@ def main():
   elif args.command == "send":
     g_id = graphit.util.working_graph(args)
     if not g_id:
-      print "No graph specified"
+      print("No graph specified")
       return
     # ds_file = open(os.path.expanduser("~/.graphit_data_%s"%g_id))
     ds = graphit.data.DataSet()

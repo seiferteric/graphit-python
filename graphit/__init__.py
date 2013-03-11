@@ -30,8 +30,8 @@ usage:
 
 """
 
-from config import config
-import util
-from interface import *
-from data import Datum, DataSet
+from .config import config
+from . import util
+from .interface import *
+from .data import Datum, DataSet
 

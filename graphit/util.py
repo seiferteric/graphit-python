@@ -1,5 +1,5 @@
 
-from config import config
+from .config import config
 
 BASE_URL = 'https://graphit.io'
 if config.base_url:

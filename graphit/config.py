@@ -53,7 +53,7 @@ class Config(object):
         config.set('config', 'last_graph', self.last_graph)
     except:
       pass
-    configfile = open(CONFIG_FILE, 'wb')
+    configfile = open(CONFIG_FILE, 'w')
     config.write(configfile)
   def test_config(self):
     config = configparser.ConfigParser()

@@ -18,7 +18,7 @@ class DataSet(object):
   def add_datum(self, datum):
      self.data.append(datum)
   def add_raw_datum(self, x_value, y_value, series=None,xlabel=None,ylabel=None):
-    self.data.append(Datum(x_value, y_value, series, xlabel, ylabel).to_hash())
+    self.data.append(Datum(x_value, y_value, series, xlabel, ylabel))
   def to_hash(self):
     final_data = []
     for datum in self.data:

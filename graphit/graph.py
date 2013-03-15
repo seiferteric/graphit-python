@@ -34,7 +34,7 @@ class Graph(object):
     all_data = []
     for idx, record in enumerate(data):
       d = build_func(record,idx)
-      all_data.append({'series': g.series, 'x': {'value':d.x_value}, 'y': {'value':d.y_value}})
+      all_data.append({'series': d.series, 'x': {'value':d.x_value}, 'y': {'value':d.y_value}})
     res = requests.post(
             util.user_graph_data_path(config.user_id, self._id,update),
             data = json.dumps(all_data),

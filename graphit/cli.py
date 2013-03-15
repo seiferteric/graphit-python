@@ -133,7 +133,7 @@ def main():
       print("No graph specified")
       return
     g = graphit.Graph(g_id)
-    g.delete_data(less_than=args.lessthan, greater_than=args.morethan, all=args.all, update=args.no_update)
+    g.delete_data(less_than=args.lessthan, greater_than=args.morethan, all_data=args.all, update=args.no_update)
     graphit.config.last_graph = g_id
     graphit.config.save()
   elif args.command == "info":

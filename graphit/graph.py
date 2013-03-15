@@ -54,8 +54,6 @@ class Graph(object):
     if greater_than:
       del_data['greater_than'] = greater_than
     if all_data:
-      print "GOT ALL"
-      print all_data
       del_data['all'] = True
     res = requests.delete(
             util.user_graph_data_path(config.user_id, self._id,update), 

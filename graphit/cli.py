@@ -47,6 +47,7 @@ def main():
   remove.add_argument('-g', '--graphid', required=False, help='ID of Graph')
   remove.add_argument('-l', '--lessthan', required=False, help='Select Data Less than this')
   remove.add_argument('-m', '--morethan', required=False, help='Select Data Greater than this')
+  remove.add_argument('-a', '--all', required=False, action='store_true', help='Select all Data to remove')
   remove.add_argument('-n', '--no_update', action='store_false', required=False, help='Update graph after remove')
 
   update = subparsers.add_parser('update', help='Update Graph')
@@ -132,7 +133,7 @@ def main():
       print("No graph specified")
       return
     g = graphit.Graph(g_id)
-    g.delete_data(less_than=args.lessthan, greater_than=args.morethan, update=args.no_update)
+    g.delete_data(less_than=args.lessthan, greater_than=args.morethan, all=args.all, update=args.no_update)
     graphit.config.last_graph = g_id
     graphit.config.save()
   elif args.command == "info":

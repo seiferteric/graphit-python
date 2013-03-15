@@ -47,12 +47,14 @@ class Graph(object):
             headers = util._build_headers(auth=True, content=True))
     res.raise_for_status()
 
-  def delete_data(self, less_than=None, greater_than=None,update=False):
+  def delete_data(self, less_than=None, greater_than=None, all=False, update=False):
     del_data = {}
     if less_than:
       del_data['less_than'] = less_than
     if greater_than:
       del_data['greater_than'] = greater_than
+    if all:
+      del_data['all'] = True
     res = requests.delete(
             util.user_graph_data_path(config.user_id, self._id,update), 
             data = json.dumps(del_data),

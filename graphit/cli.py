@@ -4,7 +4,10 @@ import sys, os
 import graphit
 import argparse
 import webbrowser
-import yaml
+try:
+  import cPickle as pickle
+except:
+  import pickle
 
 def test_config():
   if not graphit.config.test_config():
@@ -192,8 +195,10 @@ def main():
     except:
       ds_file = open(os.path.expanduser("~/.graphit_data_%s"%g_id), "w+")
 
-      
-    cdata = yaml.load(ds_file)
+    try: 
+      cdata = pickle.load(ds_file)
+    except:
+      cdata = []
     ds_file.close()
     ds_file = open(os.path.expanduser("~/.graphit_data_%s"%g_id), "w")
     
@@ -202,7 +207,8 @@ def main():
     
     cdata.append(graphit.data.Datum(args.x_value, args.y_value, args.series))
     
-    ds_file.write(yaml.dump(cdata))
+    #ds_file.write(pickle.dump(cdata))
+    pickle.dump(cdata, ds_file)
     ds_file.close()
     graphit.config.last_graph = g_id
     graphit.config.save()
@@ -218,7 +224,7 @@ def main():
     #     print datum
     #     datum = yaml.load(datum)
     #     ds.add_datum(datum)
-    data = yaml.load(open(os.path.expanduser("~/.graphit_data_%s"%g_id)))
+    data = pickle.load(open(os.path.expanduser("~/.graphit_data_%s"%g_id)))
     for d in data:
       ds.add_datum(d)
     # ds_file.close()

@@ -96,6 +96,8 @@ def main():
         graphit.config.save()
     print("User ID: %s"%graphit.config.user_id)
     print("API Key: %s"%graphit.config.api_key)
+  elif args.command == "signup":
+    webbrowser.open('https://graphit.io/auth/google')  
   else:
     test_config()
   if args.command == "new":
@@ -233,8 +235,6 @@ def main():
     os.unlink(os.path.expanduser("~/.graphit_data_%s"%g_id))
     graphit.config.last_graph = g_id
     graphit.config.save()
-  elif args.command == "signup":
-    webbrowser.open('https://graphit.io/auth/google') 
 
 if __name__ == "__main__":
   main()

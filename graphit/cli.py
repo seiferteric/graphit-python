@@ -36,6 +36,13 @@ def main():
   new_graph.add_argument('--name', '-n', required=True, help='Name and title of the Graph')
   new_graph.add_argument('-x', '--x_label', help='Graph X Axis Label')
   new_graph.add_argument('-y', '--y_label', help='Graph Y Axis Label')
+  new_graph.add_argument('-s', '--samples', required=False, help='Samples per series')
+  new_graph.add_argument('--x_min', required=False, help='Specify graph window x minumum')
+  new_graph.add_argument('--x_max', required=False, help='Specify graph window x maximum')
+  new_graph.add_argument('--from_end', required=False, help='Graph window tracks new data, specify window width from end')
+  new_graph.add_argument('--from_start', required=False, help='Specify graph window width from start.')
+  new_graph.add_argument('--y_min', required=False, help='Specify graph window y minumum')
+  new_graph.add_argument('--y_max', required=False, help='Specify graph window y maximum')
 
   new_point = subparsers.add_parser('add', help='Add data to existing graph')
   new_point.add_argument('-g', '--graphid', required=False, help='ID of Graph')
@@ -58,6 +65,14 @@ def main():
   update.add_argument('-n', '--name', required=False, help='Update Graph Name')
   update.add_argument('-x', '--x_label', required=False, help='Update X Label')
   update.add_argument('-y', '--y_label', required=False, help='Update Y Label')
+  update.add_argument('-s', '--samples', required=False, help='Samples per series')
+  update.add_argument('--x_min', required=False, help='Specify graph window x minumum')
+  update.add_argument('--x_max', required=False, help='Specify graph window x maximum')
+  update.add_argument('--from_end', required=False, help='Graph window tracks new data, specify window width from end')
+  update.add_argument('--from_start', required=False, help='Specify graph window width from start.')
+  update.add_argument('--y_min', required=False, help='Specify graph window y minumum')
+  update.add_argument('--y_max', required=False, help='Specify graph window y maximum')
+
 
   use = subparsers.add_parser('use', help='Graph to use for subsequent actions')
   use.add_argument('-g', '--graphid', required=True, help='ID of Graph')
@@ -101,7 +116,23 @@ def main():
   else:
     test_config()
   if args.command == "new":
-    g = graphit.new_graph({"name":args.name, "x_label": args.x_label, "y_label": args.y_label})
+    ops = {
+      "name":args.name, 
+      "x_label": args.x_label, 
+      "y_label": args.y_label,
+      "samples": args.samples,
+      "x_window_min": args.x_min,
+      "x_window_max": args.x_max,
+      "y_window_min": args.y_min,
+      "y_window_max": args.y_max,
+      "from_end": args.from_end,
+      "from_start": args.from_start
+      }
+    filt_ops = {}
+    for k in ops:
+      if ops[k] != None:
+        filt_ops[k] = ops[k]  
+    g = graphit.new_graph(filt_ops)
     g.read()
     print("%s : %s"%(g._id, g.name))
     graphit.config.last_graph = g._id
@@ -126,7 +157,23 @@ def main():
       print("No graph specified")
       return
     g = graphit.Graph(g_id)
-    g.update({"x_label": args.x_label, "y_label": args.y_label})
+    ops = {
+      "name":args.name, 
+      "x_label": args.x_label, 
+      "y_label": args.y_label,
+      "samples": args.samples,
+      "x_window_min": args.x_min,
+      "x_window_max": args.x_max,
+      "y_window_min": args.y_min,
+      "y_window_max": args.y_max,
+      "from_end": args.from_end,
+      "from_start": args.from_start
+      }
+    filt_ops = {}
+    for k in ops:
+      if ops[k] != None:
+        filt_ops[k] = ops[k]
+    g.update(filt_ops)
     graphit.config.last_graph = g_id
     graphit.config.save()
   elif args.command == "use":

@@ -43,6 +43,7 @@ def main():
   new_graph.add_argument('--from_start', required=False, help='Specify graph window width from start.')
   new_graph.add_argument('--y_min', required=False, help='Specify graph window y minumum')
   new_graph.add_argument('--y_max', required=False, help='Specify graph window y maximum')
+  new_graph.add_argument('--x_mode', required=False, help='Specify either time or normal')
 
   new_point = subparsers.add_parser('add', help='Add data to existing graph')
   new_point.add_argument('-g', '--graphid', required=False, help='ID of Graph')
@@ -72,6 +73,7 @@ def main():
   update.add_argument('--from_start', required=False, help='Specify graph window width from start.')
   update.add_argument('--y_min', required=False, help='Specify graph window y minumum')
   update.add_argument('--y_max', required=False, help='Specify graph window y maximum')
+  update.add_argument('--x_mode', required=False, help='Specify either time or normal')
 
 
   use = subparsers.add_parser('use', help='Graph to use for subsequent actions')
@@ -126,7 +128,8 @@ def main():
       "y_window_min": args.y_min,
       "y_window_max": args.y_max,
       "from_end": args.from_end,
-      "from_start": args.from_start
+      "from_start": args.from_start,
+      "x_axis_mode": args.x_mode
       }
     filt_ops = {}
     for k in ops:
@@ -167,7 +170,8 @@ def main():
       "y_window_min": args.y_min,
       "y_window_max": args.y_max,
       "from_end": args.from_end,
-      "from_start": args.from_start
+      "from_start": args.from_start,
+      "x_axis_mode": args.x_mode
       }
     filt_ops = {}
     for k in ops:

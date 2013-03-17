@@ -21,7 +21,7 @@ def test_config():
     
 def main():
   parser = argparse.ArgumentParser(description='Graphit.io Shell Utility')
-  parser.add_argument('--version', '-v', action='version', version='%(prog)s 0.0.9')
+  parser.add_argument('--version', '-v', action='version', version='%(prog)s 0.1.0')
   subparsers = parser.add_subparsers(help='sub-command help', dest="command")
  
   subparsers.add_parser('signup', help='Opens the graphit.io signup page.') 
@@ -148,7 +148,7 @@ def main():
       print("No graph specified")
       return
     g = graphit.Graph(g_id)
-    g.add_datum(args.x_value, args.y_value,args.series,args.x_label,args.y_label,update=args.no_update)
+    g.add(args.x_value, args.y_value,args.series,args.x_label,args.y_label,update=args.no_update)
     graphit.config.last_graph = g_id
     graphit.config.save()
   elif args.command == "list":

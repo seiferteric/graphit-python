@@ -5,7 +5,7 @@ from .config import config
 from .graph import Graph
 from . import util
 
-def new_graph(ops={}):
+def new_graph(**ops):
 
   res = requests.post(util.user_graphs_path(config.user_id),
           data = json.dumps(ops),

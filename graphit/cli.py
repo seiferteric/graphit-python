@@ -132,7 +132,7 @@ def main():
     for k in ops:
       if ops[k] != None:
         filt_ops[k] = ops[k]  
-    g = graphit.new_graph(filt_ops)
+    g = graphit.new_graph(**filt_ops)
     g.read()
     print("%s : %s"%(g._id, g.name))
     graphit.config.last_graph = g._id
@@ -173,7 +173,7 @@ def main():
     for k in ops:
       if ops[k] != None:
         filt_ops[k] = ops[k]
-    g.update(filt_ops)
+    g.update(**filt_ops)
     graphit.config.last_graph = g_id
     graphit.config.save()
   elif args.command == "use":

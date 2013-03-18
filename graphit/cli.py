@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import sys, os
+import sys, os, time
 import graphit
 import argparse
 import webbrowser
@@ -47,7 +47,8 @@ def main():
 
   new_point = subparsers.add_parser('add', help='Add data to existing graph')
   new_point.add_argument('-g', '--graphid', required=False, help='ID of Graph')
-  new_point.add_argument('-x', '--x_value', required=True, help='Value of X')
+  new_point.add_argument('-x', '--x_value', required=False, help='Value of X')
+  new_point.add_argument('--now', action='store_true', required=False, help='Use current time as x value')
   new_point.add_argument('-y', '--y_value', required=True, help='Value of Y')
   new_point.add_argument('-s', '--series', required=False, help='Graph Series Name')
   new_point.add_argument('-xl', '--x_label', required=False, help='Manually Set X label for point')
@@ -95,7 +96,8 @@ def main():
     
   build = subparsers.add_parser('build', help='Build Data Set by adding data')
   build.add_argument('-g', '--graphid', required=False, help='ID of Graph')
-  build.add_argument('-x', '--x_value', required=True, help='Value of X')
+  build.add_argument('-x', '--x_value', required=False, help='Value of X')
+  build.add_argument('--now', action='store_true', required=False, help='Use current time as x value')
   build.add_argument('-y', '--y_value', required=True, help='Value of Y')
   build.add_argument('-s', '--series', required=False, help='Graph Series Name')
 
@@ -151,7 +153,16 @@ def main():
       print("No graph specified")
       return
     g = graphit.Graph(g_id)
-    g.add(args.x_value, args.y_value,args.series,args.x_label,args.y_label,update=args.no_update)
+    x_val = None
+    if args.x_value:
+      x_val = args.x_val
+    elif args.now:
+      x_val = time.time()
+    else:
+      sys.stderr.write("No x value specified\n")
+      sys.exit(-1)
+    
+    g.add(x_val, args.y_value,args.series,args.x_label,args.y_label,update=args.no_update)
     graphit.config.last_graph = g_id
     graphit.config.save()
   elif args.command == "list":
@@ -243,6 +254,15 @@ def main():
     webbrowser.open(g.url())
   elif args.command == "build":
     g_id = graphit.util.working_graph(args)
+    x_val = None
+    if args.x_value:
+      x_val = args.x_val
+    elif args.now:
+      x_val = time.time()
+    else:
+      sys.stderr.write("No x value specified\n")
+      sys.exit(-1)
+
     if not g_id:
       print("No graph specified")
       return
@@ -261,7 +281,7 @@ def main():
     if cdata == None:
       cdata = []
     
-    cdata.append(graphit.data.Datum(args.x_value, args.y_value, args.series))
+    cdata.append(graphit.data.Datum(x_val, args.y_value, args.series))
     
     #ds_file.write(pickle.dump(cdata))
     pickle.dump(cdata, ds_file)

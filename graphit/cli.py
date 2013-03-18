@@ -87,6 +87,9 @@ def main():
 
   open_graph = subparsers.add_parser('open', help='Open graph in default browser')
   open_graph.add_argument('-g', '--graphid', required=False, help='ID of Graph')
+  #Alias open with show. python 3.x has alias, but not 2.7...
+  show_graph = subparsers.add_parser('show', help='Open graph in default browser')
+  show_graph.add_argument('-g', '--graphid', required=False, help='ID of Graph')
 
   list_graphs = subparsers.add_parser('list', help='List all Graphs')
     
@@ -231,7 +234,7 @@ def main():
       print("Samples: %d"%g.samples)
     if g.data_count != None:
       print("Total Data Points: %d"%g.data_count)
-  elif args.command == "open":
+  elif args.command == "open" or args.command == "show":
     g_id = graphit.util.working_graph(args)
     if not g_id:
       print("No graph specified")

@@ -6,7 +6,7 @@ from setuptools import setup, find_packages
 
 setup(
       name = "graphit.io",
-      version = "0.1.0",
+      version = "0.1.1",
       packages = find_packages(),
       install_requires=['distribute>=0.6.35', 'requests>=1.1.0'],
       author = "Eric Seifert",

@@ -21,7 +21,7 @@ def test_config():
     
 def main():
   parser = argparse.ArgumentParser(description='Graphit.io Shell Utility')
-  parser.add_argument('--version', '-v', action='version', version='%(prog)s 0.1.0')
+  parser.add_argument('--version', '-v', action='version', version='%(prog)s 0.1.1')
   subparsers = parser.add_subparsers(help='sub-command help', dest="command")
  
   subparsers.add_parser('signup', help='Opens the graphit.io signup page.') 

@@ -155,7 +155,7 @@ def main():
     g = graphit.Graph(g_id)
     x_val = None
     if args.x_value:
-      x_val = args.x_val
+      x_val = args.x_value
     elif args.now:
       x_val = time.time()
     else:
